@@ -22,4 +22,6 @@ app:
     security:
         issuer: ng-software
         secret: J1wsiRoSUs1*
-
+        expires: 5
+        token:
+            type: Bearer

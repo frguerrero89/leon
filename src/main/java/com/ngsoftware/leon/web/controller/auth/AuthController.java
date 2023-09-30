@@ -27,8 +27,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginDto loginDto) {
         var login = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-        var authentication = this.authenticationManager.authenticate(login);
-        var jwt = jwtUtil.create(authentication.getPrincipal().toString());
+        this.authenticationManager.authenticate(login);
+        var jwt = jwtUtil.create(loginDto.getUsername());
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwt).build();
     }
 }

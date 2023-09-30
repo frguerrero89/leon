@@ -2,13 +2,12 @@ package com.ngsoftware.leon.persistence.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Table
-@Entity(name="users")
-@EntityListeners({AuditingEntityListener.class})
+@Entity(name = "users")
 @Data
 public class UserEntity implements Serializable {
 
@@ -21,12 +20,13 @@ public class UserEntity implements Serializable {
     private String email;
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
-    @Column(name = "company_name", nullable = false)
-    private String companyName;
     @Column(name = "employee_id", nullable = false)
     private String employeeId;
-    @Column(name="disabled", nullable = false)
+    @Column(name = "disabled", nullable = false)
     private boolean disabled;
-    @Column(name="locked", nullable = false)
+    @Column(name = "locked", nullable = false)
     private boolean locked;
+    @ManyToMany
+    @JoinTable(name = "user_has_rol", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "id_rol"))
+    private List<RolEntity> roles;
 }
