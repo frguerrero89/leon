@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -39,15 +41,21 @@ public class JWTUtil {
     /**
      * Crea un token JWT incluyendo el nombre de usuario como asunto.
      * 
-     * @param username Nombre del usuario propietario del token
-     * @return Token jwt valido
+     * @param username Nombre del usuario propietario del token.
+     * @param claim    Mapa con los valores que se agregarán como claims del token.
+     * @return Token jwt valido.
      */
-    public String create(String username) {
-        return JWT.create().withSubject(username)
+    public String create(String username, Map<String, String> claims) {
+        var jwt = JWT.create().withSubject(username)
                 .withIssuer(this.issuer)
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(expires)))
-                .sign(Algorithm.HMAC256(secret));
+                .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(expires)));
+        if (claims.size() > 0) {
+            for (Entry<String, String> claim : claims.entrySet()) {
+                jwt.withClaim(claim.getKey(), claim.getValue());
+            }
+        }
+        return jwt.sign(Algorithm.HMAC256(secret));
     }
 
     /**
@@ -78,5 +86,20 @@ public class JWTUtil {
         return JWT.require(Algorithm.HMAC256(secret))
                 .build()
                 .verify(jwt).getSubject();
+    }
+
+    /**
+     * Permite obtener un claim del token a partir de su nombre
+     * 
+     * @param jwt  token del cual se obtendrá el claim
+     * @param name nombre del claim
+     * @return valor solicitado si existe.
+     */
+    public String getClaim(String jwt, String name) {
+        return JWT.require(Algorithm.HMAC256(secret))
+                .build()
+                .verify(jwt)
+                .getClaim(name)
+                .asString();
     }
 }
