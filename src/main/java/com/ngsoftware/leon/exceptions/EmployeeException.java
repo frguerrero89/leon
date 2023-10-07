@@ -8,7 +8,7 @@ import com.ngsoftware.leon.utils.enums.Messages;
  * 
  * @author Francisco Guerrero Peláez
  */
-public class EmployeeException extends Exception {
+public class EmployeeException extends RuntimeException {
     public EmployeeException(Messages message) {
         super(message.getMessage());
     }

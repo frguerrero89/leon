@@ -7,7 +7,7 @@ import com.ngsoftware.leon.utils.enums.Messages;
  * 
  * @author Francisco Guerrero Peláez
  */
-public class LicenceException extends Exception {
+public class LicenceException extends RuntimeException {
 
     public LicenceException(Messages message) {
         super(message.getMessage());

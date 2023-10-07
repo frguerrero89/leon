@@ -16,7 +16,8 @@ public enum Messages {
     USER_DOES_NOT_PASS_VALIDATIONS("El usuario no ha pasado las diferentes validaciones de seguridad y negocio"),
     NO_EMPLOYEE_FOUND("No se pudo encontrar el registro de empleado del usuario"),
     NO_LICENCES("No se encontraron licencias para la compañia"),
-    NO_VALID_LICENCE("No posee una licencia valida");
+    NO_VALID_LICENCE("No posee una licencia valida"),
+    BAD_CREDENTIALS_MESSAGE("Usuario o contraseña errados, por favor reintente");
 
     /**
      * Cadena del mensaje que se desea mostrar.
