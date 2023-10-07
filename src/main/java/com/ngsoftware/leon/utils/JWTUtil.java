@@ -3,19 +3,36 @@ package com.ngsoftware.leon.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * Utilidad para el trabajo de tokens jwt
+ * 
+ * @author Francisco Guerrero Peláez
+ */
 @Component
+@Log4j2
 public class JWTUtil {
 
+    /**
+     * Nombre de quién firma el token
+     */
     @Value("${app.security.issuer}")
     private String issuer;
+    /**
+     * Clave de cifrado del token
+     */
     @Value("${app.security.secret}")
     private String secret;
+    /**
+     * Duración del token
+     */
     @Value("${app.security.expires}")
     private int expires;
 
@@ -46,12 +63,14 @@ public class JWTUtil {
                     .verify(jwt);
             return true;
         } catch (Exception e) {
+            log.error("El token {} no es valido, {}", jwt, e.getMessage());
             return false;
         }
     }
 
     /**
      * Retorna el nombre del usuario registrado como asunto del token
+     * 
      * @param jwt token de donde se va a extraer
      * @return Nombre de usuario
      */
