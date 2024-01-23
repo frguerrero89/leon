@@ -13,8 +13,8 @@ import java.util.Optional;
 public interface LicenceRepo extends CrudRepository<LicenceEnity, String> {
 
     /**
-     * Busca una licencia a partir del identificador de la empresa propietaria 
+     * Busca una licencia a partir del identificador de la empresa propietaria
      */
     public Optional<List<LicenceEnity>> findLicenceByCompanyId(String companyId);
-    
+
 }
